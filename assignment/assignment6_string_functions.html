@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Assignment 6 - JavaScript String Functions</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    table { border-collapse: collapse; width: 100%; max-width: 800px; }
+    th, td { border: 1px solid #333; padding: 7px 10px; text-align: left; font-size: 14px; }
+    th { background: #dde6f5; }
+    code { background: #f3f3f3; padding: 1px 4px; }
+    input { padding: 6px; width: 260px; }
+  </style>
+</head>
+<body>
+  <h1>JavaScript String Functions</h1>
+  <label>Enter a string: <input type="text" id="str" value="  Hello JavaScript World  "></label>
+  <button onclick="run()">Apply Functions</button>
+  <br><br>
+  <table id="result"></table>
+
+  <script>
+    function run() {
+      let s = document.getElementById("str").value;
+      let rows = [
+        ["length", s.length],
+        ["toUpperCase()", s.toUpperCase()],
+        ["toLowerCase()", s.toLowerCase()],
+        ["trim()", "[" + s.trim() + "]"],
+        ["charAt(1)", s.charAt(1)],
+        ["indexOf('o')", s.indexOf("o")],
+        ["lastIndexOf('o')", s.lastIndexOf("o")],
+        ["includes('Java')", s.includes("Java")],
+        ["startsWith('  H')", s.startsWith("  H")],
+        ["endsWith('  ')", s.endsWith("  ")],
+        ["slice(2, 7)", s.slice(2, 7)],
+        ["substring(2, 7)", s.substring(2, 7)],
+        ["substr(2, 5)", s.substr(2, 5)],
+        ["replace('World', 'Everyone')", s.replace("World", "Everyone")],
+        ["split(' ')", JSON.stringify(s.trim().split(" "))],
+        ["concat(' !!!')", s.concat(" !!!")],
+        ["repeat(2)", s.trim().repeat(2)],
+        ["padStart(30, '*')", s.trim().padStart(30, "*")],
+        ["padEnd(30, '*')", s.trim().padEnd(30, "*")],
+        ["search('Java')", s.search("Java")],
+        ["match(/o/g)", JSON.stringify(s.match(/o/g))],
+        ["charCodeAt(2)", s.charCodeAt(2)],
+        ["reverse (split-reverse-join)", s.split("").reverse().join("")]
+      ];
+      let html = "<tr><th>Function</th><th>Result</th></tr>";
+      for (let r of rows) {
+        let val = String(r[1]).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/ /g, "&nbsp;");
+        html += "<tr><td><code>" + r[0] + "</code></td><td>" + val + "</td></tr>";
+      }
+      document.getElementById("result").innerHTML = html;
+    }
+    run();
+  </script>
+</body>
+</html>

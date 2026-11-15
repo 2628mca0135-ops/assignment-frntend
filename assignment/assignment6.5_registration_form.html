@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Registration Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #eef1f6; margin: 0; padding: 30px; }
+    .box { max-width: 480px; margin: auto; background: #fff; padding: 25px 30px; border-radius: 8px; box-shadow: 0 3px 12px rgba(0,0,0,.15); }
+    h2 { text-align: center; color: #2c3e50; margin-top: 0; }
+    label { display: block; margin-top: 14px; font-weight: bold; font-size: 14px; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #aaa; border-radius: 4px; }
+    .error { color: #c0392b; font-size: 12px; min-height: 14px; }
+    button { width: 100%; margin-top: 20px; padding: 10px; background: #2c3e50; color: #fff; border: 0; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    button:hover { background: #1abc9c; }
+    #success { color: #27ae60; text-align: center; font-weight: bold; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>University Registration</h2>
+    <form id="regForm" novalidate>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter full name">
+      <div class="error" id="nameErr"></div>
+
+      <label for="email">Email</label>
+      <input type="text" id="email" placeholder="example@gmail.com">
+      <div class="error" id="emailErr"></div>
+
+      <label for="course">Course</label>
+      <select id="course">
+        <option value="">-- Select Course --</option>
+        <option>B.Sc Computer Science</option>
+        <option>BCA</option>
+        <option>B.Tech</option>
+        <option>MBA</option>
+      </select>
+      <div class="error" id="courseErr"></div>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Min 8 chars, upper, lower, digit, symbol">
+      <div class="error" id="passErr"></div>
+
+      <label for="confirm">Confirm Password</label>
+      <input type="password" id="confirm" placeholder="Re-enter password">
+      <div class="error" id="confirmErr"></div>
+
+      <button type="submit">Register</button>
+      <div id="success"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("regForm");
+
+    function setError(id, msg) {
+      document.getElementById(id).textContent = msg;
+      return msg === "";   // true if valid
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("success").textContent = "";
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const course = document.getElementById("course").value;
+      const pass = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+
+      // Name
+      let ok1 = setError("nameErr", name.length < 3 ? "Name must be at least 3 characters." : "");
+
+      // Email: text@text.domain
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+      let ok2 = setError("emailErr", !emailPattern.test(email) ? "Enter a valid email address." : "");
+
+      // Course
+      let ok3 = setError("courseErr", course === "" ? "Please select a course." : "");
+
+      // Password: 8+ chars, upper, lower, digit, special
+      let passMsg = "";
+      if (pass.length < 8) passMsg = "Password must be at least 8 characters.";
+      else if (!/[A-Z]/.test(pass)) passMsg = "Include at least one uppercase letter.";
+      else if (!/[a-z]/.test(pass)) passMsg = "Include at least one lowercase letter.";
+      else if (!/[0-9]/.test(pass)) passMsg = "Include at least one digit.";
+      else if (!/[^A-Za-z0-9]/.test(pass)) passMsg = "Include at least one special character.";
+      let ok4 = setError("passErr", passMsg);
+
+      // Confirm password
+      let ok5 = setError("confirmErr", confirm !== pass || confirm === "" ? "Passwords do not match." : "");
+
+      if (ok1 && ok2 && ok3 && ok4 && ok5) {
+        document.getElementById("success").textContent = "Registration successful! Welcome, " + name + ".";
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>

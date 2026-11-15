@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Assignment 5 - let, var, const</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    pre { background: #f3f3f3; padding: 12px; border-left: 4px solid #4a76c9; white-space: pre-wrap; }
+    h2 { color: #2c3e50; }
+  </style>
+</head>
+<body>
+  <h1>JavaScript: var, let and const</h1>
+  <p>Open the page and see the output below (also check the browser Console with F12).</p>
+  <pre id="output"></pre>
+
+  <script>
+    var out = "";
+    function show(text) { out += text + "\n"; console.log(text); }
+
+    // 1. var - function scoped, can be redeclared and updated
+    show("--- 1. var ---");
+    var a = 10;
+    var a = 20;            // redeclaring is allowed
+    a = 30;                // updating is allowed
+    show("a = " + a);
+
+    // 2. let - block scoped, can be updated but NOT redeclared
+    show("--- 2. let ---");
+    let b = 10;
+    b = 40;                // updating is allowed
+    // let b = 50;         // Error: Identifier 'b' has already been declared
+    show("b = " + b);
+
+    // 3. const - block scoped, cannot be updated or redeclared
+    show("--- 3. const ---");
+    const PI = 3.14;
+    // PI = 3.15;          // Error: Assignment to constant variable
+    show("PI = " + PI);
+    const student = { name: "Aarav" };
+    student.name = "Diya"; // object properties CAN change
+    show("const object property changed: " + student.name);
+
+    // 4. Scope difference
+    show("--- 4. Scope ---");
+    if (true) {
+      var x = "var inside block";
+      let y = "let inside block";
+      const z = "const inside block";
+    }
+    show("x outside block: " + x);                 // works
+    show("typeof y outside block: " + typeof y);   // undefined
+    show("typeof z outside block: " + typeof z);   // undefined
+
+    // 5. Hoisting
+    show("--- 5. Hoisting ---");
+    show("var before declaration: " + hoistedVar); // undefined
+    var hoistedVar = 5;
+    try {
+      show(hoistedLet);                            // error
+      let hoistedLet = 5;
+    } catch (e) {
+      show("let before declaration: " + e.name + " - " + e.message);
+    }
+
+    // 6. Loop example
+    show("--- 6. Loop ---");
+    for (var i = 0; i < 3; i++) { }
+    show("var i after loop = " + i);               // 3
+    for (let j = 0; j < 3; j++) { }
+    show("let j after loop = " + typeof j);        // undefined
+
+    // Summary table
+    show("\nSummary:");
+    show("var   : function scope, redeclare YES, update YES, hoisted (undefined)");
+    show("let   : block scope,    redeclare NO,  update YES, hoisted (TDZ error)");
+    show("const : block scope,    redeclare NO,  update NO,  hoisted (TDZ error)");
+
+    document.getElementById("output").textContent = out;
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #eef1f6; padding: 30px; }
+    .box { max-width: 460px; margin: auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 3px 12px rgba(0,0,0,.15); }
+    h1 { text-align: center; color: #2c3e50; margin-top: 0; }
+    .row { display: flex; gap: 8px; }
+    #taskInput { flex: 1; padding: 9px; border: 1px solid #aaa; border-radius: 4px; }
+    button { padding: 9px 14px; border: 0; border-radius: 4px; cursor: pointer; color: #fff; background: #2c3e50; }
+    button:hover { background: #1abc9c; }
+    ul { list-style: none; padding: 0; margin-top: 18px; }
+    li { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; }
+    li .del { background: #c0392b; padding: 5px 10px; font-size: 13px; }
+    li .del:hover { background: #e74c3c; }
+    #msg { color: #c0392b; font-size: 13px; min-height: 16px; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>To-Do List</h1>
+    <div class="row">
+      <input type="text" id="taskInput" placeholder="Enter a task...">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <div id="msg"></div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    const input = document.getElementById("taskInput");
+    const list = document.getElementById("taskList");
+    const msg = document.getElementById("msg");
+
+    function addTask() {
+      const text = input.value.trim();
+      if (text === "") {
+        msg.textContent = "Please enter a task.";
+        return;
+      }
+      msg.textContent = "";
+
+      const li = document.createElement("li");
+      const span = document.createElement("span");
+      span.textContent = text;
+
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.className = "del";
+      delBtn.onclick = function () {
+        list.removeChild(li);     // remove this list item
+      };
+
+      li.appendChild(span);
+      li.appendChild(delBtn);
+      list.appendChild(li);
+
+      input.value = "";
+      input.focus();
+    }
+
+    // Press Enter to add a task
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") addTask();
+    });
+  </script>
+</body>
+</html>
